@@ -6,6 +6,12 @@ pipeline {
     }
 
     stages {
+         stage('Cleanup') {
+            steps {
+                deleteDir()
+            }
+        }
+        
         stage('Clone') {
             steps {
                 git branch: 'main', url: 'https://github.com/hungbitcoinrich/jenkintestjob.git'
