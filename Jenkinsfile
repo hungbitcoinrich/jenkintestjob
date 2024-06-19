@@ -1,49 +1,47 @@
-node {
-   
-   //Declare a global variable for mvnHome
+pipeline {
+    agent any
 
-   stage('Version') { 
+    stages {
+        stage('Check Maven') {
+            steps {
+                bat 'mvn -version'
+            }
+        }
 
-	  //build job: 'Version Check'
-          
-   }
+        stage('Build') {
+            steps {
+                bat 'mvn compile'
+            }
+        }
 
-   stage('Environment') {
-       
-       // build job: 'Enviro-Check'
-       
-   }
+        stage('Deploy') {
+            when {
+                branch 'master'
+            }
+            steps {
+                echo 'Deploying application...'
+            }
+        }
 
-   stage('Document') {
-   
-	  //build job: 'Generate-JavaDoc', parameters: [booleanParam(name: 'generate_javadoc', value: false), stringParam(name: 'javadoc_location', value: 'C:\\_javadoc00')]
+        stage('Test') {
+            parallel {
+                stage('Unit Testing') {
+                    steps {
+                        echo 'Running unit tests...'
+                    }
+                }
+                stage('UI Testing') {
+                    steps {
+                        bat 'mvn test'
+                    }
+                }
+            }
+        }
 
-   }
-
-   stage('Compile'){
-  
-       // build job: 'Compile-RPS'
-   }
-   
-   stage('Acceptance') {
-       
-         //def response = input message: 'UAT Tests',   parameters: [choice(choices: 'Pass\nFail', description: 'Proceed or Abort?', name: 'Pass or Fail?')]
-
-   }
-   
-   stage('Almost Done!') {
-      def response = input message: 'Whatcha think?', parameters: [choice(choices: 'Yes\nNo', description: 'Proceed or Abort?', name: 'Wasn\'t that cool?')]
-        
-      if (response=="Yes") {
-         echo "I agree!"
-      } else {
-         echo "You are hard to please."
-      }
-   }
-	
-   stage('Static Code Analysis'){
-       build job: 'static-code-analysis'
-   }
-	
-
+        stage('Release') {
+            steps {
+                echo 'Releasing application...'
+            }
+        }
+    }
 }
