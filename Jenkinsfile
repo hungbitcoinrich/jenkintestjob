@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+ tools {
+        jdk 'JDK_22'
+    }
+
     stages {
         stage('Check Maven') {
             steps {
