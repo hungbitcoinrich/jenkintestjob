@@ -5,6 +5,12 @@ pipeline {
         jdk 'JDK_21'
     }
 
+    stage('Clone'){
+        steps{
+            git 'https://github.com/hungbitcoinrich/jenkintestjob.git'
+        }
+    }
+
     stages {
         stage('Check Maven') {
             steps {
