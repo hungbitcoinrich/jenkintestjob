@@ -15,6 +15,7 @@ pipeline {
         stage('Clone') {
             steps {
                 git branch: 'main', url: 'https://github.com/hungbitcoinrich/jenkintestjob.git'
+                 bat 'dir'
             }
         }
 
