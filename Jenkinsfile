@@ -6,6 +6,12 @@ pipeline {
     }
 
     stages {
+        stage('Build') {
+            steps {
+                bat 'mvn compile'
+            }
+        }
+        
          stage('Cleanup') {
             steps {
                 deleteDir()
@@ -25,11 +31,7 @@ pipeline {
             }
         }
 
-        stage('Build') {
-            steps {
-                bat 'mvn compile'
-            }
-        }
+        
 
         stage('Deploy') {
             when {
