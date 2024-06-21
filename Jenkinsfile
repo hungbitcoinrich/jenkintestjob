@@ -35,7 +35,7 @@ pipeline {
 
         stage('Deploy') {
             when {
-                branch 'master'
+                branch 'tre'
             }
             steps {
                 echo 'Deploying application...'
